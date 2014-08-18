@@ -1,0 +1,224 @@
+/* package whatever; // don't place package name! */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// Shape.java: abstract base class
+abstract class Shape { // abstract class, can't instantiate
+   // to implement an idNumber
+   private static int counter = 0;
+   private int idNumber;
+   public Shape () {
+      idNumber = ++counter;
+   }
+   public int getIdNumber() { return idNumber;}
+
+   public double area() { return 0.0; }
+   public double volume() { return 0.0; }
+   public abstract String getName(); // abstract, so omit body
+} 
+
+// Point.java: the class Point
+class Point extends Shape {
+   protected int x, y; // coordinates of the Point
+
+   // constructor
+   public Point( int a, int b ) { x = a; y = b; }
+
+   // get x coordinate
+   public int getX() { return x; }
+
+   // get y coordinate
+   public int getY() { return y; }
+
+   // convert the point into a String representation
+   public String toString()
+      { return "[" + x + ", " + y + "]"; }
+
+   // return the class name
+   public String getName() { return "Point"; }    
+}
+
+// circle.java: the class Circle
+class Circle extends Point {  // inherits from Point
+   protected double radius;     
+
+   // Constructor
+   public Circle( double r, int a, int b ) {
+      super( a, b );  // call the superclass constructor
+      radius = ( r >= 0 ? r : 0 );
+   }
+      
+   // Calculate area of Circle
+   public double area() { return Math.PI * radius * radius; }
+
+   // convert the Circle to a String
+   public String toString()
+      { return "Center = " + super.toString() +
+               "; Radius = " + radius; }
+
+   // return the class name
+   public String getName() { return "Circle"; }
+}
+
+ // Cylinder.java: the class Cylinder
+class Cylinder extends Circle {
+   protected double height;  // height of Cylinder
+
+   // constructor
+   public Cylinder( double h, double r, int a, int b ) {
+      super( r, a, b );   // call superclass constructor
+      height = ( h >= 0 ? h : 0 );
+   }
+
+   // Calculate area of Cylinder (i.e., surface area)      
+   public double area() {
+      return 2 * super.area() +
+             2 * Math.PI * radius * height;
+   }
+
+   // Calculate volume of Cylinder
+   public double volume() { return super.area() * height; }
+
+   // Convert a Cylinder to a String
+   public String toString() {
+      return super.toString() + "; Height = " + height;
+   }
+
+   // Return the class name
+   public String getName() { return "Cylinder"; }
+}
+
+
+// Rectangle.java: the class Rectangle
+class Rectangle extends Point {  // inherits from Point
+   protected double length;
+   protected double width;
+
+   // Constructor
+   public Rectangle( double len, double wid, int a, int b ) {
+      super( a, b );  // call the superclass constructor
+      length = ( len >= 0 ? len : 0 );
+      width  = ( wid >= 0 ? wid : 0 );
+   }
+
+   // Calculate area of Rectangle
+   public double area() { return length * width; }
+
+   // convert the Rectangle to a String
+   public String toString() {
+      return "Center = " + super.toString() + 
+         "; Length = " + length + ", Width = " + width; }
+
+   // return the class name
+   public String getName() {
+      if (length == width) return "Square"; 
+      else return "Rectangle";
+   }
+}
+
+
+
+// RectangularSolid.java: the class RectangularSolid
+class RectangularSolid extends Rectangle {
+   protected double height;  // height of RectangularSolid
+
+   // constructor
+   public RectangularSolid(double h, double len, double wid, int a, int b) {
+      super(len, wid, a, b);   // call superclass constructor
+      height = ( h >= 0 ? h : 0 );
+   }
+
+   // Calculate area of RectangularSolid (i.e., surface area)
+   public double area() {
+      return 2 * super.area() +
+             2 * length * height +
+             2 * width * height;
+   }
+
+   // Calculate volume of RectangularSolid
+   public double volume() { return super.area() * height; }
+
+   // Convert a RectangularSolid to a String
+   public String toString() {
+      return super.toString() + "; Height = " + height;
+   }
+
+   // Return the class name
+   public String getName() {
+      if (length == width && length == height)
+         return("Cube");
+      else return "RectangularSolid";
+   }
+}
+
+
+// Main.java: test point, circle, cylinder hierarchy
+public class Main {
+
+   private static Shape shapes[];
+
+   public static void createShapes() {
+
+      shapes = new Shape[15]; // generic array of any shape
+
+      shapes[0]  = new Rectangle(3.0, 4.0, 6, 8);
+      shapes[1]  = new Point(7, 11);
+      shapes[2]  = new Circle(3.5, 22, 8);
+      shapes[3]  = new Cylinder(10, 3.3, 10, 10);
+      shapes[4]  = new RectangularSolid(2.0, 3.0, 4.0, 6, 8);
+      shapes[5]  = new Point(8, 12);
+      shapes[6]  = new Rectangle(2.0, 2.0, 7, 9);
+      shapes[7]  = new Circle(3.6, 23, 9);
+      shapes[8]  = new Cylinder(12, 3.4, 20, 20);
+      shapes[9]  = new Rectangle(6.0, 6.0, 5, 7);
+      shapes[10] = new RectangularSolid(3.0, 3.0, 3.0, 10, 4);
+      shapes[11] = new Point(9, 13);
+      shapes[12] = new Circle(3.7, 24, 10);
+      shapes[13] = new Cylinder(14, 3.5, 30, 30);
+      shapes[14] = new RectangularSolid(4.0, 4.0, 4.0, 8, 9);
+   }
+
+   public static void printShapes() {
+
+      // Loop through arrayOfShapes. Use polymorphism to print the name,
+      // area, and volume of each object.
+      System.out.println("PRINT THE SHAPES AS AN ARRAY OF SHAPE");
+      for ( int i = 0; i < shapes.length; i++ ) {
+         System.out.println(shapes[i].getName() + ": " +
+                       shapes[i].toString() + ", ID: " +
+                       shapes[i].getIdNumber());
+         System.out.println("Area = " + shapes[i].area());
+         System.out.println("Volume = " + shapes[i].volume());
+         System.out.println();
+      }
+   }
+
+   //  insertionSort: Sorts array of Shapes using the insertion sort 
+   public static void insertionSort () {
+      for (int index = 1; index < shapes.length; index++) {
+         Shape key = shapes[index];
+         int position = index;
+         // shift larger values to the right
+         while (position > 0 && compareShapes(shapes[position-1], key) > 0) {
+            shapes[position] = shapes[position-1];
+            position--;
+         }
+         shapes[position] = key;
+      }
+   }
+
+   private static int compareShapes (Shape s1, Shape s2) {
+      if ((s1.getName()).equals(s2.getName()))
+         return s1.getIdNumber() - s2.getIdNumber();
+      else return (s1.getName()).compareTo(s2.getName());
+   }
+
+   public static void main (String[] args) {
+      Main shapeTest = new Main();
+      Main.createShapes();
+      Main.insertionSort();
+      Main.printShapes();    
+   }
+}
