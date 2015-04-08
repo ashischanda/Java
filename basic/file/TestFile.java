@@ -22,6 +22,17 @@ public class TestFile {
         } catch (FileNotFoundException ex) {
            System.out.println("Error: "+ex);
         }
+        
+         // file write method
+        try {
+            File file = new File("D:/file.txt");
+            PrintWriter printWriter = new PrintWriter(file);
+            printWriter.println("hello");
+            printWriter.close();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+        
      
         }
 
