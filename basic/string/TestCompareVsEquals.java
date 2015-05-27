@@ -38,4 +38,12 @@ public class TestCompareVsEquals {
     }
 }
 
+/*
+0
+-32
+32
+Returned Value = true
+Returned Value = true
+Returned Value = false
 
+*/
