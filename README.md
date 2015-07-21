@@ -1,4 +1,4 @@
 Java
 ====
 
-basic codes and initial programming objects
+basic codes and object oriented programming concepts
